@@ -17,7 +17,7 @@ use N7e\DependencyInjection\ContainerInterface;
 /**
  * Represents a collection of service providers.
  */
-class ServiceProviderRegistry
+final class ServiceProviderRegistry
 {
     /**
      * Container builder instance.
@@ -50,6 +50,16 @@ class ServiceProviderRegistry
         $this->containerBuilder = $containerBuilder;
         $this->serviceProviders = [];
         $this->hasLoadedServiceProviders = false;
+    }
+
+    /**
+     * Determine whether service providers have been loaded.
+     *
+     * @return bool True if service providers have been loaded.
+     */
+    public function hasLoaded(): bool
+    {
+        return $this->hasLoadedServiceProviders;
     }
 
     /**

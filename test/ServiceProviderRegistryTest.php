@@ -20,7 +20,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(ServiceProviderRegistry::class)]
-class ServiceProviderRegistryTest extends TestCase
+final class ServiceProviderRegistryTest extends TestCase
 {
     private MockObject $containerBuilderMock;
     private MockObject $containerMock;
@@ -34,6 +34,16 @@ class ServiceProviderRegistryTest extends TestCase
         $this->containerMock = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $this->services = new ServiceProviderRegistry($this->containerBuilderMock);
         $this->serviceProviderMock = $this->getMockBuilder(ServiceProviderInterface::class)->getMock();
+    }
+
+    #[Test]
+    public function shouldDetermineWhetherServiceProvidersHaveBeenLoaded(): void
+    {
+        $this->assertFalse($this->services->hasLoaded());
+
+        $this->services->load($this->containerMock);
+
+        $this->assertTrue($this->services->hasLoaded());
     }
 
     #[Test]
